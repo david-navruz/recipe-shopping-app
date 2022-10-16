@@ -9,9 +9,12 @@ import { Recipe } from '../recipe.model';
 export class RecipeListComponent implements OnInit {
 
   recipes:Recipe[] = [
-    new Recipe('Pizza', 'How to make a pizza',
+    new Recipe('Cheese Pizza', 'How to make a cheese pizza',
               'https://www.bettybossi.ch/rdbimg/bb_itku120801_0243a/bb_itku120801_0243a_r01_v005_x0010.jpg'
-              )
+              ),
+    new Recipe('Chicken Pizza', 'How to make a chicken pizza',
+                  'https://www.bettybossi.ch/rdbimg/bb_itku120801_0243a/bb_itku120801_0243a_r01_v005_x0010.jpg'
+                  ),
   ];
 
   constructor() { }
