@@ -1,56 +1,64 @@
-import { Injectable } from '@angular/core';
-import { Recipe } from './recipe.model';
-import { Ingredient } from '../shared/ingredient.model';
-import { ShoppingListService } from '../shopping-list/shopping-list.service';
-import { Subject } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {Recipe} from './recipe.model';
+import {Ingredient} from '../shared/ingredient.model';
+import {ShoppingListService} from '../shopping-list/shopping-list.service';
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  private recipes:Recipe[] = [
-    new Recipe('Cheese Pizza', 'How to make a cheese pizza',
-              'https://www.bettybossi.ch/rdbimg/bb_itku120801_0243a/bb_itku120801_0243a_r01_v005_x0010.jpg',
-              [
-                new Ingredient('Olives', 20),
-                new Ingredient('French cheese', 1)
-              ]),
-    new Recipe('Chicken Pizza', 'How to make a chicken pizza',
-                  'https://www.bettybossi.ch/rdbimg/bb_itku120801_0243a/bb_itku120801_0243a_r01_v005_x0010.jpg',
-                 [
-                  new Ingredient('Chicken Breast', 2),
-                  new Ingredient('Mozzarella', 2)
-                  ]),
-  ];
+/*  private recipes: Recipe[] = [
+    new Recipe(
+      'Tasty Schnitzel',
+      'A super-tasty Schnitzel - just awesome!',
+      'https://upload.wikimedia.org/wikipedia/commons/7/72/Schnitzel.JPG',
+      [new Ingredient('Meat', 1), new Ingredient('French Fries', 20)]
+    ),
+    new Recipe(
+      'Big Fat Burger',
+      'What else you need to say?',
+      'https://upload.wikimedia.org/wikipedia/commons/b/be/Burger_King_Angus_Bacon_%26_Cheese_Steak_Burger.jpg',
+      [new Ingredient('Buns', 2), new Ingredient('Meat', 1)]
+    )
+  ];*/
 
-   constructor(private slService: ShoppingListService) {}
+  private recipes: Recipe[] = [];
 
-    // slice() method extracts a section of an array and returns a new array.
-    getRecipes() {
-      return this.recipes.slice();
-    }
+  constructor(private slService: ShoppingListService) {
+  }
 
-    getRecipe(index: number) {
-       return this.recipes[index];
-    }
+  setRecipes(recipes: Recipe[]) {
+    this.recipes = recipes;
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
-    addIngredientsToShoppingList(ingredients: Ingredient[]) {
-      this.slService.addIngredients(ingredients);
-    }
+  // slice() method extracts a section of an array and returns a new array.
+  getRecipes() {
+    return this.recipes.slice();
+  }
 
-    addRecipe(recipe:Recipe){
-     this.recipes.push(recipe);
-     this.recipesChanged.next(this.recipes.slice());
-    }
+  getRecipe(index: number) {
+    return this.recipes[index];
+  }
 
-    updateRecipe(index:number, newRecipe:Recipe){
-     this.recipes[index] = newRecipe;
-      this.recipesChanged.next(this.recipes.slice());
-    }
+  addIngredientsToShoppingList(ingredients: Ingredient[]) {
+    this.slService.addIngredients(ingredients);
+  }
 
-    deleteRecipe(index: number) {
-      this.recipes.splice(index, 1);
-      this.recipesChanged.next(this.recipes.slice());
-    }
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipesChanged.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
 }
